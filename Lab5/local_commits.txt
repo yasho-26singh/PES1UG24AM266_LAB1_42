@@ -1,0 +1,14 @@
+Three local fix commits after upstream baseline 12f84cd2821f7a74712fa8755f095758391c4fac
+
+6e867eb39e1c525742d2a57afff4f9dbcce47d47
+fix(bandit): replace unsafe pickle and weak MD5, remove unused password
+Author: Shreya Yashodhara Singh <231525773+yasho-26singh@users.noreply.github.com>
+
+efbd53f557328621065eb5614bee12e623101531
+fix(pylint): document functions, narrow exceptions and improve iteration
+Author: Shreya Yashodhara Singh <231525773+yasho-26singh@users.noreply.github.com>
+
+04a9930776d4fb59bfe7f95c9c3e1c0fa2e89daf
+fix(flake8): normalize spacing and line lengths; document and verify final results
+Author: Shreya Yashodhara Singh <231525773+yasho-26singh@users.noreply.github.com>
+

@@ -125,3 +125,12 @@ The use-case diagram contains:
 ## 10. Conclusion
 
 The proposed Internal Microservice Catalog & Health Portal provides a centralized solution for discovering, documenting and monitoring enterprise microservices. It improves operational visibility, service reliability and incident response through automated health monitoring and alert generation.
+
+
+## Lab 5: Static Code Analysis
+
+**Shreya Yashodhara Singh | PES1UG24AM266**
+
+[Open all Lab 5 deliverables](Lab5/) | [Read the report](Lab5/report.pdf) | [Download the submission ZIP](Lab5/PES1UG24AM266_Lab5_Submission.zip)
+
+Includes the cleaned Python source, before-and-after Pylint/Bandit/Flake8 reports, issue table, reflection draft, 12 passing regression checks, and three separate fix commits in the repository history. Final results: Pylint 10.00/10; zero Bandit and Flake8 findings.

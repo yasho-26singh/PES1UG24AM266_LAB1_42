@@ -1,55 +1,54 @@
-# Lab 5: Static Code Analysis — Contact & Address Book Manager
+# Lab 5 submission
 
-**Your file:** `address_book.py`
+Student: Shreya Yashodhara Singh  
+SRN: PES1UG24AM266  
+Assigned repository: https://github.com/SETAPESU26/L5_27_address_book  
+Baseline commit: 12f84cd2821f7a74712fa8755f095758391c4fac
 
-Follow the lab handout for the full instructions.
+## Contents
 
-## About the program
+- address_book.py: fixed source.
+- reports/before and reports/after: raw Pylint, Bandit and Flake8 stdout reports, separate stderr, and command/exit-code metadata. The empty after/flake8_report.txt is expected: Flake8 prints nothing when clean.
+- original/address_book.py and original/demo_output.txt: untouched baseline evidence.
+- issues.md: 13 issue categories with original line references.
+- reflection.md: four draft reflections. The supplied handout omits the actual questions; review these against any separate class instructions.
+- report.pdf: report with identity, results, issue table, validation and reflections.
+- test_address_book.py and reports/test_results.txt: 12 passing behavior checks.
+- requirements-dev.txt: exact versions used with Python 3.12.14.
 
-A small address book. It adds contacts after checking the phone number, searches by name or number, updates cities, groups contacts by city, prints a numbered directory, exports to contacts.csv and backs the whole book up to contacts.bak.
+## Reproduce
 
-The code works, but only just. It has quality, style and security problems of the kind Pylint, Flake8 and Bandit are built to find.
+Run these commands from this folder after extracting the submission:
 
-## What to do
+```text
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements-dev.txt
+.venv\Scripts\python address_book.py
+.venv\Scripts\python -m pylint --persistent=n address_book.py
+.venv\Scripts\python -m bandit -r address_book.py -f txt
+.venv\Scripts\python -m flake8 address_book.py
+.venv\Scripts\python -m unittest -v
+```
 
-1. **Run it first** and read the output carefully:
+The analysis scope is address_book.py, as required by the lab; original/ deliberately retains unsafe original code as evidence. No warnings were suppressed and no custom rule exclusions were used.
 
-   ```
-   python address_book.py
-   ```
+## Git history
 
-   It runs a short demonstration and needs no input. Note what it prints, so you can check that it still behaves the same after your fixes.
+This folder includes submission.bundle and local_commits.txt with the original standalone repository history. To recover the complete repository and three new fix commits, run:
 
-2. **Install the tools:**
+```text
+git clone submission.bundle Lab5
+git -C Lab5 log --oneline
+```
 
-   ```
-   python -m pip install pylint bandit flake8
-   ```
+The three fix commits cover Bandit, Pylint and Flake8 respectively. The original upstream commit is retained. The three fix stages have also been published in the parent repository history under Lab5/. Published hashes differ from the standalone hashes because the parent repository and paths differ. The assigned upstream repository is retained as the source reference.
 
-3. **Run the analysis and save the reports:**
+## Behavior changes
 
-   ```
-   python -m pylint address_book.py > pylint_report.txt
-   python -m bandit -r address_book.py > bandit_report.txt
-   python -m flake8 address_book.py > flake8_report.txt
-   ```
+Backups keep the contacts.bak filename but now contain JSON; regenerate old pickle backups. Contact IDs use the first six hexadecimal characters of SHA-256, so displayed IDs change. These short IDs are labels only and may collide. Function names use snake_case. Importing the module no longer runs the demo. restore_book returns the saved dictionary without replacing the global contacts, matching the original behavior.
 
-4. **Document the issues** in `issues.md` using this table (at least 4 rows, high and medium severity first):
+Prepared with AI assistance. Review the code and reflection draft so you can explain the fixes during the lab presentation.
 
-   | Issue | Type | Line(s) | Description | Fix Approach |
-   |-------|------|---------|-------------|--------------|
-   | ...   | ...  | ...     | ...         | ...          |
+## Published submission
 
-5. **Fix the code.** Fix at least 4 of the issues you documented, then rerun all three tools to confirm they are gone. Repeat until you are satisfied. The program should still do its job when you are done.
-
-6. **Reflect.** Answer the four reflection questions from the handout in `reflection.md`.
-
-## Deliverables
-
-- `address_book.py`: your cleaned version, with at least 4 issues fixed.
-- `issues.md`: the completed issue table.
-- `reflection.md`: your answers to the reflection questions.
-
-**Target:** aim for a Pylint score above 9.5 on your final file. A perfect 10.00/10 is very good.
-
-Be ready to explain the bugs you found and how you fixed them. You may be called on to present.
+All Lab 5 deliverables are in this folder. Use the parent repository history to inspect the three published fix commits. The ZIP preserves the original standalone submission and local history. The original instructor README is retained in original/assignment_README.md.
