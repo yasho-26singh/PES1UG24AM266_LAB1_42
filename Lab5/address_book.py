@@ -1,3 +1,5 @@
+"""Manage contacts, export CSV, and store safe JSON backups."""
+
 import csv
 import hashlib
 import json
@@ -6,19 +8,22 @@ import re
 contacts = {}
 
 
-def addContact(fullName, phone, email="", city="Unknown"):
+def add_contact(full_name, phone, email="", city="Unknown"):
+    """Add or replace a contact if the phone has exactly ten digits."""
     if not re.fullmatch(r"[0-9]{10}", phone):
-        print("Invalid phone number for", fullName)
+        print("Invalid phone number for", full_name)
         return False
-    contacts[fullName] = {"phone": phone, "email": email, "city": city}
+    contacts[full_name] = {"phone": phone, "email": email, "city": city}
     return True
 
 
-def contactId(fullName):
-    return hashlib.sha256(fullName.encode()).hexdigest()[:6]
+def contact_id(full_name):
+    """Return a six-digit display identifier; not a security token."""
+    return hashlib.sha256(full_name.encode()).hexdigest()[:6]
 
 
-def searchContacts(text):
+def search_contacts(text):
+    """Return names matching a name substring or phone substring."""
     found=[]
     for name, info in contacts.items():
         if text.lower() in name.lower() or text in info["phone"]:
@@ -26,16 +31,18 @@ def searchContacts(text):
     return found
 
 
-def updateCity(fullName, city):
+def update_city(full_name, city):
+    """Update a contact city, returning False when the name is absent."""
     try:
-        contacts[fullName]["city"] = city
+        contacts[full_name]["city"] = city
         return True
-    except Exception:
-        print("No contact named", fullName)
+    except KeyError:
+        print("No contact named", full_name)
         return False
 
 
-def contactsByCity():
+def contacts_by_city():
+    """Group contact names by their city."""
     grouped = {}
     for name, info in contacts.items():
         grouped.setdefault(info["city"], []).append(name)
@@ -43,45 +50,51 @@ def contactsByCity():
 
 
 
-def printDirectory():
+def print_directory():
+    """Print a numbered directory sorted by contact name."""
     names = sorted(contacts)
-    for i in range(len(names)):
-        print(i + 1, names[i], contacts[names[i]]["phone"])
+    for index, name in enumerate(names, start=1):
+        print(index, name, contacts[name]["phone"])
 
 
-def exportCsv(fileName="contacts.csv"):
-    with open(fileName, "w", newline="") as f:
+def export_csv(file_name="contacts.csv"):
+    """Export contact rows as UTF-8 CSV without a header."""
+    with open(file_name, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         for name, info in contacts.items():
             writer.writerow([name, info["phone"], info["email"], info["city"]])
 
 
-def backupBook(fileName="contacts.bak"):
-    with open(fileName, "w", encoding="utf-8") as f:
+def backup_book(file_name="contacts.bak"):
+    """Write the address book as UTF-8 JSON to the backup path."""
+    with open(file_name, "w", encoding="utf-8") as f:
         json.dump(contacts, f)
 
 
-def restoreBook(fileName="contacts.bak"):
-    with open(fileName, "r", encoding="utf-8") as f:
+def restore_book(file_name="contacts.bak"):
+    """Read a JSON backup and return it without changing contacts."""
+    with open(file_name, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def main():
-    addContact("Neha Sharma", "9876543210", "neha@example.com", "Bengaluru")
-    addContact("Rahul Verma", "9123456780", "rahul@example.com", "Mysuru")
-    addContact("Test User", "12345")
-    addContact("Kavya Nair", "9988776655", city="Bengaluru")
-    updateCity("Rahul Verma", "Chennai")
-    updateCity("Nobody", "Delhi")
-    printDirectory()
-    print("Search 'ra':", searchContacts("ra"))
-    print("By city:", contactsByCity())
-    print("Id for Neha:", contactId("Neha Sharma"))
-    exportCsv()
-    backupBook()
-    restored = restoreBook()
+    """Run the original address book demonstration."""
+    add_contact("Neha Sharma", "9876543210", "neha@example.com", "Bengaluru")
+    add_contact("Rahul Verma", "9123456780", "rahul@example.com", "Mysuru")
+    add_contact("Test User", "12345")
+    add_contact("Kavya Nair", "9988776655", city="Bengaluru")
+    update_city("Rahul Verma", "Chennai")
+    update_city("Nobody", "Delhi")
+    print_directory()
+    print("Search 'ra':", search_contacts("ra"))
+    print("By city:", contacts_by_city())
+    print("Id for Neha:", contact_id("Neha Sharma"))
+    export_csv()
+    backup_book()
+    restored = restore_book()
     print("Contacts restored:", len(restored), "| first:",sorted(restored)[0])
     print("Restored contacts match the in-memory address book:", restored == contacts)
 
 
-main()
+if __name__ == "__main__":
+    main()
