@@ -1,0 +1,14 @@
+{
+  "pylint": {
+    "command": "python -m pylint --persistent=n address_book.py",
+    "exit_code": 20
+  },
+  "bandit": {
+    "command": "python -m bandit -r address_book.py -f txt",
+    "exit_code": 1
+  },
+  "flake8": {
+    "command": "python -m flake8 address_book.py",
+    "exit_code": 1
+  }
+}
