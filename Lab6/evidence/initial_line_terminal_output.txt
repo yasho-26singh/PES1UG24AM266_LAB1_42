@@ -1,0 +1,14 @@
+Shreya Yashodhara Singh | PES1UG24AM266
+Lab 6 - Initial Line Coverage
+
+> python -m coverage run --source=traffic_fine -m pytest -q test_traffic_fine.py
+..                                                                       [100%]
+2 passed in 0.03s
+
+> python -m coverage report -m
+Name              Stmts   Miss  Cover   Missing
+-----------------------------------------------
+traffic_fine.py      35     26    26%   4-15, 20-22, 24-26, 28, 33-40
+-----------------------------------------------
+TOTAL                35     26    26%
+
